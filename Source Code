@@ -4,25 +4,25 @@ import (
 	"os"
 )
 
-const MAX_SAMPAH = 100
-const MAX_JENIS = 20
-const MAX_DAUR = 100
+const MAX_SAMPAH = 25
+const MAX_JENIS = 25
+const MAX_DAUR = 25
 
 type Jenis struct {
 	Nama string
 }
 
 type DataTerkumpul struct {
-	Jenis  Jenis
+	Jenis Jenis
 	Jumlah float64
-	Waktu  string
+	Waktu string
 }
 
 type DataDaurUlang struct {
-	Jenis  Jenis
+	Jenis Jenis
 	Jumlah float64
 	Metode string
-	Waktu  string
+	Waktu string
 }
 
 var dataSampahTerkumpul [MAX_SAMPAH]DataTerkumpul
@@ -35,24 +35,47 @@ func initDummyData() {
 	daftarJenisSampah[1] = Jenis{Nama: "Kertas"}
 	daftarJenisSampah[2] = Jenis{Nama: "Kaca"}
 	daftarJenisSampah[3] = Jenis{Nama: "Logam"}
-	nJenis = 4
+	daftarJenisSampah[4] = Jenis{Nama: "Organik"}
+	daftarJenisSampah[5] = Jenis{Nama: "Kain"}
+	daftarJenisSampah[6] = Jenis{Nama: "Elektronik"}
+	daftarJenisSampah[7] = Jenis{Nama: "Kayu"}
+	daftarJenisSampah[8] = Jenis{Nama: "Baterai"}
+	daftarJenisSampah[9] = Jenis{Nama: "Kardus"}
+	nJenis = 10
 
 	dataSampahTerkumpul[0] = DataTerkumpul{Jenis: daftarJenisSampah[0], Jumlah: 50.5, Waktu: "2025-05-20"}
 	dataSampahTerkumpul[1] = DataTerkumpul{Jenis: daftarJenisSampah[1], Jumlah: 30.0, Waktu: "2025-05-21"}
 	dataSampahTerkumpul[2] = DataTerkumpul{Jenis: daftarJenisSampah[2], Jumlah: 20.75, Waktu: "2025-05-22"}
-	nSampah = 3
+	dataSampahTerkumpul[3] = DataTerkumpul{Jenis: daftarJenisSampah[3], Jumlah: 15.2, Waktu: "2025-05-22"}
+	dataSampahTerkumpul[4] = DataTerkumpul{Jenis: daftarJenisSampah[4], Jumlah: 75.0, Waktu: "2025-05-23"}
+	dataSampahTerkumpul[5] = DataTerkumpul{Jenis: daftarJenisSampah[0], Jumlah: 45.0, Waktu: "2025-05-23"}
+	dataSampahTerkumpul[6] = DataTerkumpul{Jenis: daftarJenisSampah[5], Jumlah: 10.8, Waktu: "2025-05-24"}
+	dataSampahTerkumpul[7] = DataTerkumpul{Jenis: daftarJenisSampah[1], Jumlah: 22.5, Waktu: "2025-05-24"}
+	dataSampahTerkumpul[8] = DataTerkumpul{Jenis: daftarJenisSampah[6], Jumlah: 5.0, Waktu: "2025-05-25"}
+	dataSampahTerkumpul[9] = DataTerkumpul{Jenis: daftarJenisSampah[4], Jumlah: 60.0, Waktu: "2025-05-25"}
+	nSampah = 10
 
 	dataDaurUlang[0] = DataDaurUlang{Jenis: daftarJenisSampah[0], Jumlah: 40.0, Metode: "Pencacahan", Waktu: "2025-05-20"}
 	dataDaurUlang[1] = DataDaurUlang{Jenis: daftarJenisSampah[1], Jumlah: 25.0, Metode: "Pemadatan", Waktu: "2025-05-21"}
-	nDaur = 2
+	dataDaurUlang[2] = DataDaurUlang{Jenis: daftarJenisSampah[2], Jumlah: 18.0, Metode: "Peleburan", Waktu: "2025-05-22"}
+	dataDaurUlang[3] = DataDaurUlang{Jenis: daftarJenisSampah[3], Jumlah: 12.0, Metode: "Pencairan", Waktu: "2025-05-22"}
+	dataDaurUlang[4] = DataDaurUlang{Jenis: daftarJenisSampah[0], Jumlah: 35.0, Metode: "Ekstrusi", Waktu: "2025-05-23"}
+	dataDaurUlang[5] = DataDaurUlang{Jenis: daftarJenisSampah[1], Jumlah: 20.0, Metode: "Pulverisasi", Waktu: "2025-05-23"}
+	dataDaurUlang[6] = DataDaurUlang{Jenis: daftarJenisSampah[5], Jumlah: 8.0, Metode: "Daur Ulang Serat", Waktu: "2025-05-24"}
+	dataDaurUlang[7] = DataDaurUlang{Jenis: daftarJenisSampah[4], Jumlah: 50.0, Metode: "Kompos", Waktu: "2025-05-24"}
+	dataDaurUlang[8] = DataDaurUlang{Jenis: daftarJenisSampah[7], Jumlah: 7.5, Metode: "Chip Kayu", Waktu: "2025-05-25"}
+	dataDaurUlang[9] = DataDaurUlang{Jenis: daftarJenisSampah[9], Jumlah: 15.0, Metode: "Pulper", Waktu: "2025-05-25"}
+	nDaur = 10
 }
 
-func tungguEnter(prompt string) {
+//Menu Enter ========================================================================
+func tEnter(prompt string) {
 	fmt.Print(prompt)
-	var dummyInput string
+	var dummyInput string   
 	fmt.Scanln(&dummyInput)
 }
 
+//Menu Utama ========================================================================
 func MenuUtama() {
 	fmt.Println("╔═════════════════════════════════════════════════╗")
 	fmt.Println("║           APLIKASI PENGELOLAAN SAMPAH           ║")
@@ -70,30 +93,17 @@ func MenuUtama() {
 	fmt.Print(" PILIH OPSI > ")
 }
 
-func MenuPerubahanData() {
-	fmt.Println("╔═════════════════════════════════════════════════╗")
-	fmt.Println("║               LIST PERUBAHAN DATA               ║")
-	fmt.Println("╠═════════════════════════════════════════════════╣")
-	fmt.Println("║ Silakan untuk memilih :                         ║")
-	fmt.Println("║                                                 ║")
-	fmt.Println("║ 1. Tampilan Data                                ║")
-	fmt.Println("║ 2. Tambahkan Data                               ║")
-	fmt.Println("║ 3. Hapus Data                                   ║")
-	fmt.Println("║ 4. Ubah Data                                    ║")
-	fmt.Println("║ 0. Kembali                                      ║")
-	fmt.Println("╚═════════════════════════════════════════════════╣")
-	fmt.Print(" PILIH OPSI > ")
-}
-
-func MenuTampilanDataSampahYangTerkumpul() {
+//Menu Tampilan Data ==================================================================
+func MenuTampilanDataSampahYangTerkumpul(){
 	fmt.Println("╔═════════════════════════════════════════════════╗")
 	fmt.Println("║      LIST DATA SAMPAH YANG SUDAH TERKUMPUL      ║")
 	fmt.Println("╠═════════════════════════════════════════════════╣")
 	fmt.Println("║ Berikut adalah tabel data sampah yang sudah     ║")
 	fmt.Println("║ terkumpul.                                      ║")
-	fmt.Println("╠════╦══════════════╦═════════════╦══════════════╣")
-	fmt.Println("║ No │ Jenis        │ Jumlah (kg) │ Waktu        ║")
-	fmt.Println("╚════╩══════════════╩═════════════╩══════════════╝")
+	fmt.Println("╠═════════════════════════════════════════════════╣")
+	fmt.Println("║ No | Jenis        | Jumlah (kg) | Waktu         ║")
+	fmt.Println("╚═════════════════════════════════════════════════╝")
+	fmt.Println("")
 }
 
 func MenuTampilanDataJenisSampah() {
@@ -102,9 +112,10 @@ func MenuTampilanDataJenisSampah() {
 	fmt.Println("╠═════════════════════════════════════════════════╣")
 	fmt.Println("║ Berikut adalah tabel data jenis sampah yang     ║")
 	fmt.Println("║ tersedia.                                       ║")
-	fmt.Println("╠════╦══════════════════════════════════════════╣")
-	fmt.Println("║ No │ Jenis Sampah                             ║")
-	fmt.Println("╚════╩══════════════════════════════════════════╝")
+	fmt.Println("╠═════════════════════════════════════════════════╣")
+	fmt.Println("║ No | Jenis Sampah                               ║")
+	fmt.Println("╚═════════════════════════════════════════════════╝")
+	fmt.Println("")
 }
 
 func MenuTampilanDataDaurUlang() {
@@ -113,18 +124,21 @@ func MenuTampilanDataDaurUlang() {
 	fmt.Println("╠═════════════════════════════════════════════════╣")
 	fmt.Println("║ Berikut adalah tabel data sampah yang di daur   ║")
 	fmt.Println("║ ulang.                                          ║")
-	fmt.Println("╠════╦══════════╦═════════════╦══════════╦═══════╣")
-	fmt.Println("║ No │ Jenis    │ Jumlah (kg) │ Metode   │ Waktu ║")
-	fmt.Println("╚════╩══════════╩═════════════╩══════════╩═══════╝")
+	fmt.Println("╠═════════════════════════════════════════════════╣")
+	fmt.Println("║ No | Jenis    | Jumlah (kg) | Metode    | Waktu ║")
+	fmt.Println("╚═════════════════════════════════════════════════╝")
+	fmt.Println("")
 }
 
-func MenuTambahDataSampahYangTerkumpul() {
+//Menu Tambah Data ==================================================================
+func MenuTambahDataSampahYangTerkumpul(){
 	fmt.Println("╔═════════════════════════════════════════════════╗")
 	fmt.Println("║      TAMBAH DATA SAMPAH YANG SUDAH TERKUMPUL    ║")
 	fmt.Println("╠═════════════════════════════════════════════════╣")
 	fmt.Println("║ Silakan untuk menambah data sampah untuk        ║")
 	fmt.Println("║ memasukkannya ke data yang sudah terkumpul.     ║")
 	fmt.Println("╚═════════════════════════════════════════════════╝")
+	fmt.Println("")
 }
 
 func MenuTambahDataJenisSampah() {
@@ -143,15 +157,18 @@ func MenuTambahDataDaurUlang() {
 	fmt.Println("║ Silakan untuk menambahkan data sampah yang akan ║")
 	fmt.Println("║ di daur ulang.                                  ║")
 	fmt.Println("╚═════════════════════════════════════════════════╝")
+	fmt.Println("")
 }
 
-func MenuHapusDataSampahYangTerkumpul() {
+//Menu Hapus Data ==================================================================
+func MenuHapusDataSampahYangTerkumpul(){
 	fmt.Println("╔═════════════════════════════════════════════════╗")
 	fmt.Println("║      HAPUS DATA SAMPAH YANG SUDAH TERKUMPUL     ║")
 	fmt.Println("╠═════════════════════════════════════════════════╣")
 	fmt.Println("║ Silakan untuk menghapus data sampah dari tabel  ║")
 	fmt.Println("║ yang sudah tersedia.                            ║")
 	fmt.Println("╚═════════════════════════════════════════════════╝")
+	fmt.Println("")
 }
 
 func MenuHapusDataJenisSampah() {
@@ -170,15 +187,18 @@ func MenuHapusDataDaurUlang() {
 	fmt.Println("║ Silakan untuk menghapus data sampah yang di     ║")
 	fmt.Println("║ daur ulang.                                     ║")
 	fmt.Println("╚═════════════════════════════════════════════════╝")
+	fmt.Println("")
 }
 
-func MenuUbahDataSampahYangTerkumpul() {
+//Menu Ubah Data =================================================================
+func MenuUbahDataSampahYangTerkumpul(){
 	fmt.Println("╔═════════════════════════════════════════════════╗")
 	fmt.Println("║       UBAH DATA SAMPAH YANG SUDAH TERKUMPUL     ║")
 	fmt.Println("╠═════════════════════════════════════════════════╣")
 	fmt.Println("║ Silakan untuk mengubah data sampah dari tabel   ║")
 	fmt.Println("║ yang sudah tersedia.                            ║")
 	fmt.Println("╚═════════════════════════════════════════════════╝")
+	fmt.Println("")
 }
 
 func MenuUbahDataJenisSampah() {
@@ -186,6 +206,7 @@ func MenuUbahDataJenisSampah() {
 	fmt.Println("║              UBAH DATA JENIS SAMPAH             ║")
 	fmt.Println("╠═════════════════════════════════════════════════╣")
 	fmt.Println("║ Silakan untuk mengubah data jenis sampah.       ║")
+	fmt.Println("║                                                 ║")
 	fmt.Println("╚═════════════════════════════════════════════════╝")
 }
 
@@ -194,42 +215,100 @@ func MenuUbahDataDaurUlang() {
 	fmt.Println("║               UBAH DATA DAUR ULANG              ║")
 	fmt.Println("╠═════════════════════════════════════════════════╣")
 	fmt.Println("║ Silakan untuk mengubah data sampah daur ulang.  ║")
+	fmt.Println("║                                                 ║")
 	fmt.Println("╚═════════════════════════════════════════════════╝")
+	fmt.Println("")
 }
 
+//Menu Perubahan Pada Data =========================================================
+func MenuPerubahanData() {
+	fmt.Println("╔═════════════════════════════════════════════════╗")
+	fmt.Println("║               LIST PERUBAHAN DATA               ║")
+	fmt.Println("╠═════════════════════════════════════════════════╣")
+	fmt.Println("║ Silakan untuk memilih :                         ║")
+	fmt.Println("║                                                 ║")
+	fmt.Println("║ 1. Tampilan Data                                ║")
+	fmt.Println("║ 2. Tambahkan Data                               ║")
+	fmt.Println("║ 3. Hapus Data                                   ║")
+	fmt.Println("║ 4. Ubah Data                                    ║")
+	fmt.Println("╚═════════════════════════════════════════════════╝")
+	fmt.Print(" PILIH OPSI > ")
+}
+
+//Menu Tampilan Statistik ===========================================================
+func MenuTampilanStatistik() {
+	fmt.Println("╔═════════════════════════════════════════════════╗")
+	fmt.Println("║               TAMPILAN STATISTIK                ║")
+	fmt.Println("╠═════════════════════════════════════════════════╣")
+	fmt.Println("║ Berikut adalah list tampilan statisik :         ║")
+	fmt.Println("║                                                 ║")
+	fmt.Println("╠═════════════════════════════════════════════════╣")
+	fmt.Println("║ No | Jumlah Sampah |  Jumlah Sampah Daur Ulang  ║")
+	fmt.Println("╚═════════════════════════════════════════════════╝")
+	fmt.Println("")
+}
+
+//Menu Cari Data Sampah =============================================================
 func MenuCariDataSampah() {
 	fmt.Println("╔═════════════════════════════════════════════════╗")
 	fmt.Println("║                 CARI DATA SAMPAH                ║")
 	fmt.Println("╠═════════════════════════════════════════════════╣")
 	fmt.Println("║ Silakan untuk cari berdasarkan :                ║")
-	fmt.Println("║ 1. Jenis (Sequential Search)                    ║")
-	fmt.Println("║ 2. Jumlah (Binary Search)                       ║")
+	fmt.Println("║                                                 ║")
+	fmt.Println("║ 1. Jenis                                        ║")
+	fmt.Println("║ 2. Jumlah (Kg)                                  ║")
+	fmt.Println("║ 3. Waktu                                        ║")
+	fmt.Println("║ 4. Metode (Dari data daur ulang)                ║")
 	fmt.Println("╚═════════════════════════════════════════════════╝")
-	fmt.Print(" PILIH OPSI > ")
+	fmt.Println("")
 }
 
+//Menu Urutkan Data Sampah ===========================================================
 func MenuUrutDataSampah() {
 	fmt.Println("╔═════════════════════════════════════════════════╗")
 	fmt.Println("║                 URUT DATA SAMPAH                ║")
 	fmt.Println("╠═════════════════════════════════════════════════╣")
 	fmt.Println("║ Silakan untuk mengurutkan berdasarkan :         ║")
-	fmt.Println("║ 1. Jenis (Selection Sort)                       ║")
-	fmt.Println("║ 2. Jumlah (Insertion Sort)                      ║")
+	fmt.Println("║                                                 ║")
+	fmt.Println("║ 1. Jenis                                        ║")
+	fmt.Println("║ 2. Jumlah (Kg)                                  ║")
+	fmt.Println("║ 3. Waktu                                        ║")
+	fmt.Println("║ 4. Metode (Dari data daur ulang)                ║")
 	fmt.Println("╚═════════════════════════════════════════════════╝")
-	fmt.Print(" PILIH OPSI > ")
+	fmt.Println("")
 }
 
+//Menu Mengurutkan Data Berdasarkan...====================================================
 func MenuMengurutkanDataBerdasarkan() {
 	fmt.Println("╔═════════════════════════════════════════════════╗")
 	fmt.Println("║                PILIHAN URUT DATA                ║")
 	fmt.Println("╠═════════════════════════════════════════════════╣")
-	fmt.Println("║ Silakan untuk memilih urutan :                  ║")
-	fmt.Println("║ 1. Ascending                                    ║")
-	fmt.Println("║ 2. Descending                                   ║")
+	fmt.Println("║ Silakan untuk memilih ingin mengurutkan data    ║")
+	fmt.Println("║ dengan cara apa.                                ║")
+    fmt.Println("║                                                 ║")
+    fmt.Println("║ 1. Selection Sort                               ║")
+    fmt.Println("║ 2. Insertion Sort                               ║")
 	fmt.Println("╚═════════════════════════════════════════════════╝")
-	fmt.Print(" PILIH OPSI > ")
+	fmt.Println("PILIH OPSI > ")
+    fmt.Println("")
 }
 
+//Menu Mencari Data Berdasarkan...====================================================
+func MenuMencariDataBerdasarkan() {
+	fmt.Println("╔═════════════════════════════════════════════════╗")
+	fmt.Println("║                PILIHAN CARI DATA                ║")
+	fmt.Println("╠═════════════════════════════════════════════════╣")
+	fmt.Println("║ Silakan untuk memilih ingin mencari data        ║")
+	fmt.Println("║ dengan cara apa.                                ║")
+    fmt.Println("║                                                 ║")
+    fmt.Println("║ 1. Binary Search                                ║")
+    fmt.Println("║ 2. Sequential Search                            ║")
+	fmt.Println("╚═════════════════════════════════════════════════╝")
+	fmt.Println("PILIH OPSI > ")
+  	fmt.Println("")
+}
+
+//Fungsi Tampilan Data ==============================================================
 func TampilanDataSampahYangTerkumpul() {
 	MenuTampilanDataSampahYangTerkumpul()
 	for i := 0; i < nSampah; i++ {
@@ -257,7 +336,8 @@ func TampilanDataDaurUlang() {
 	tungguEnter("Tekan Enter untuk kembali...")
 }
 
-func isStringEqual(s1, s2 string) bool {
+//Fungsi String Huruf Besar dan Huruf Kecil
+func StringBesarKecil(s1, s2 string) bool {
 	if len(s1) != len(s2) {
 		return false
 	}
@@ -277,6 +357,7 @@ func isStringEqual(s1, s2 string) bool {
 	return true
 }
 
+//Fungsi Tambah Data ================================================================
 func TambahDataSampahYangTerkumpul() {
 	MenuTambahDataSampahYangTerkumpul()
 	if nSampah >= MAX_SAMPAH {
@@ -295,7 +376,7 @@ func TambahDataSampahYangTerkumpul() {
 
 	idx := -1
 	for i := 0; i < nJenis; i++ {
-		if isStringEqual(daftarJenisSampah[i].Nama, namaJenis) {
+		if StringBesarKecil(daftarJenisSampah[i].Nama, namaJenis) {
 			idx = i
 		}
 	}
@@ -306,14 +387,14 @@ func TambahDataSampahYangTerkumpul() {
 		nSampah++
 		fmt.Println("Data berhasil ditambahkan!")
 	}
-	tungguEnter("Tekan Enter untuk kembali...")
+	tEnter("Tekan Enter untuk kembali...")
 }
 
 func TambahDataJenisSampah() {
 	MenuTambahDataJenisSampah()
 	if nJenis >= MAX_JENIS {
 		fmt.Println("Kapasitas jenis sampah penuh!")
-		tungguEnter("Tekan Enter untuk kembali...")
+		tEnter("Tekan Enter untuk kembali...")
 		return
 	}
 	var nama string
@@ -322,7 +403,7 @@ func TambahDataJenisSampah() {
 	daftarJenisSampah[nJenis] = Jenis{Nama: nama}
 	nJenis++
 	fmt.Println("Jenis sampah berhasil ditambahkan!")
-	tungguEnter("Tekan Enter untuk kembali...")
+	tEnter("Tekan Enter untuk kembali...")
 }
 
 func TambahDataDaurUlang() {
@@ -359,6 +440,7 @@ func TambahDataDaurUlang() {
 	tungguEnter("Tekan Enter untuk kembali...")
 }
 
+//Fungsi Hapus Data ===================================================================
 func HapusDataSampahYangTerkumpul() {
 	MenuHapusDataSampahYangTerkumpul()
 	TampilanDataSampahYangTerkumpul()
@@ -375,7 +457,7 @@ func HapusDataSampahYangTerkumpul() {
 	} else {
 		fmt.Println("Nomor data tidak valid!")
 	}
-	tungguEnter("Tekan Enter untuk kembali...")
+	tEnter("Tekan Enter untuk kembali...")
 }
 
 func HapusDataJenisSampah() {
@@ -388,12 +470,12 @@ func HapusDataJenisSampah() {
 	if idx >= 0 && idx < nJenis {
 		used := false
 		for i := 0; i < nSampah; i++ {
-			if isStringEqual(dataSampahTerkumpul[i].Jenis.Nama, daftarJenisSampah[idx].Nama) {
+			if StringBesarKecil(dataSampahTerkumpul[i].Jenis.Nama, daftarJenisSampah[idx].Nama) {
 				used = true
 			}
 		}
 		for i := 0; i < nDaur; i++ {
-			if isStringEqual(dataDaurUlang[i].Jenis.Nama, daftarJenisSampah[idx].Nama) {
+			if StringBesarKecil(dataDaurUlang[i].Jenis.Nama, daftarJenisSampah[idx].Nama) {
 				used = true
 			}
 		}
@@ -409,7 +491,7 @@ func HapusDataJenisSampah() {
 	} else {
 		fmt.Println("Nomor jenis sampah tidak valid!")
 	}
-	tungguEnter("Tekan Enter untuk kembali...")
+	tEnter("Tekan Enter untuk kembali...")
 }
 
 func HapusDataDaurUlang() {
@@ -428,354 +510,111 @@ func HapusDataDaurUlang() {
 	} else {
 		fmt.Println("Nomor data tidak valid!")
 	}
-	tungguEnter("Tekan Enter untuk kembali...")
+	tEnter("Tekan Enter untuk kembali...")
 }
 
+//Fungsi Hapus Data ==================================================================
 func UbahDataSampahYangTerkumpul() {
-	MenuUbahDataSampahYangTerkumpul()
-	TampilanDataSampahYangTerkumpul()
-	var idx int
-	fmt.Print("Masukkan nomor data yang akan diubah: ")
-	fmt.Scanln(&idx)
-	idx--
-	if idx >= 0 && idx < nSampah {
-		var namaJenis, waktu string
-		var jumlah float64
-		fmt.Print("Masukkan nama jenis sampah baru: ")
-		fmt.Scanln(&namaJenis)
-		fmt.Print("Masukkan jumlah baru (kg): ")
-		fmt.Scanln(&jumlah)
-		fmt.Print("Masukkan waktu baru (YYYY-MM-DD): ")
-		fmt.Scanln(&waktu)
-
-		idxJenis := -1
-		for i := 0; i < nJenis; i++ {
-			if isStringEqual(daftarJenisSampah[i].Nama, namaJenis) {
-				idxJenis = i
-			}
-		}
-		if idxJenis == -1 {
-			fmt.Println("Jenis sampah tidak ditemukan!")
-		} else {
-			dataSampahTerkumpul[idx] = DataTerkumpul{Jenis: daftarJenisSampah[idxJenis], Jumlah: jumlah, Waktu: waktu}
-			fmt.Println("Data berhasil diubah!")
-		}
-	} else {
-		fmt.Println("Nomor data tidak valid!")
-	}
-	tungguEnter("Tekan Enter untuk kembali...")
+	
 }
 
 func UbahDataJenisSampah() {
-	MenuUbahDataJenisSampah()
-	TampilanDataJenisSampah()
-	var idx int
-	fmt.Print("Masukkan nomor jenis sampah yang akan diubah: ")
-	fmt.Scanln(&idx)
-	idx--
-	if idx >= 0 && idx < nJenis {
-		var nama string
-		fmt.Print("Masukkan nama jenis sampah baru: ")
-		fmt.Scanln(&nama)
-		daftarJenisSampah[idx].Nama = nama
-		fmt.Println("Jenis sampah berhasil diubah!")
-	} else {
-		fmt.Println("Nomor jenis sampah tidak valid!")
-	}
-	tungguEnter("Tekan Enter untuk kembali...")
+	
 }
 
 func UbahDataDaurUlang() {
-	MenuUbahDataDaurUlang()
-	TampilanDataDaurUlang()
-	var idx int
-	fmt.Print("Masukkan nomor data daur ulang yang akan diubah: ")
-	fmt.Scanln(&idx)
-	idx--
-	if idx >= 0 && idx < nDaur {
-		var namaJenis, metode, waktu string
-		var jumlah float64
-		fmt.Print("Masukkan nama jenis sampah baru: ")
-		fmt.Scanln(&namaJenis)
-		fmt.Print("Masukkan jumlah baru (kg): ")
-		fmt.Scanln(&jumlah)
-		fmt.Print("Masukkan metode daur ulang baru: ")
-		fmt.Scanln(&metode)
-		fmt.Print("Masukkan waktu baru (YYYY-MM-DD): ")
-		fmt.Scanln(&waktu)
-
-		idxJenis := -1
-		for i := 0; i < nJenis; i++ {
-			if isStringEqual(daftarJenisSampah[i].Nama, namaJenis) {
-				idxJenis = i
-			}
-		}
-		if idxJenis == -1 {
-			fmt.Println("Jenis sampah tidak ditemukan!")
-		} else {
-			dataDaurUlang[idx] = DataDaurUlang{Jenis: daftarJenisSampah[idxJenis], Jumlah: jumlah, Metode: metode, Waktu: waktu}
-			fmt.Println("Data daur ulang berhasil diubah!")
-		}
-	} else {
-		fmt.Println("Nomor data tidak valid!")
-	}
-	tungguEnter("Tekan Enter untuk kembali...")
+	
 }
 
-func SequentialSearchJenis(nama string) {
-	found := false
-	fmt.Println("Hasil pencarian berdasarkan jenis:", nama)
-	MenuTampilanDataSampahYangTerkumpul()
-	for i := 0; i < nSampah; i++ {
-		if isStringEqual(dataSampahTerkumpul[i].Jenis.Nama, nama) {
-			fmt.Printf("║ %-2d │ %-12s │ %-11.2f │ %-12s ║\n", i+1, dataSampahTerkumpul[i].Jenis.Nama, dataSampahTerkumpul[i].Jumlah, dataSampahTerkumpul[i].Waktu)
-			found = true
-		}
-	}
-	if !found {
-		fmt.Println("Data tidak ditemukan!")
-	}
-	fmt.Println("╚═════════════════════════════════════════════════╝")
-	tungguEnter("Tekan Enter untuk kembali...")
+//Fungsi Perubahan Data ===============================================================
+func PerubahanData() {
+	
 }
 
-func BinarySearchJumlah(jumlah float64) {
-	var temp [MAX_SAMPAH]DataTerkumpul
-	for i := 0; i < nSampah; i++ {
-		temp[i] = dataSampahTerkumpul[i]
-	}
-	for i := 1; i < nSampah; i++ {
-		key := temp[i]
-		j := i - 1
-		for j >= 0 && temp[j].Jumlah > key.Jumlah {
-			temp[j+1] = temp[j]
-			j--
-		}
-		temp[j+1] = key
-	}
-
-	left := 0
-	right := nSampah - 1
-	found := false
-	fmt.Println("Hasil pencarian berdasarkan jumlah:", jumlah)
-	MenuTampilanDataSampahYangTerkumpul()
-	for left <= right {
-		mid := (left + right) / 2
-		if temp[mid].Jumlah == jumlah {
-			fmt.Printf("║ %-2d │ %-12s │ %-11.2f │ %-12s ║\n", mid+1, temp[mid].Jenis.Nama, temp[mid].Jumlah, temp[mid].Waktu)
-			found = true
-			for i := mid - 1; i >= 0 && temp[i].Jumlah == jumlah; i-- {
-				fmt.Printf("║ %-2d │ %-12s │ %-11.2f │ %-12s ║\n", i+1, temp[i].Jenis.Nama, temp[i].Jumlah, temp[i].Waktu)
-			}
-			for i := mid + 1; i < nSampah && temp[i].Jumlah == jumlah; i++ {
-				fmt.Printf("║ %-2d │ %-12s │ %-11.2f │ %-12s ║\n", i+1, temp[i].Jenis.Nama, temp[i].Jumlah, temp[i].Waktu)
-			}
-			left = right + 1
-		} else if temp[mid].Jumlah > jumlah {
-			right = mid - 1
-		} else {
-			left = mid + 1
-		}
-	}
-	if !found {
-		fmt.Println("Data tidak ditemukan!")
-	}
-	fmt.Println("╚═════════════════════════════════════════════════╝")
-	tungguEnter("Tekan Enter untuk kembali...")
-}
-
-func SelectionSortJenis(ascending bool) {
-	var temp [MAX_SAMPAH]DataTerkumpul
-	for i := 0; i < nSampah; i++ {
-		temp[i] = dataSampahTerkumpul[i]
-	}
-	for i := 0; i < nSampah-1; i++ {
-		idx := i
-		for j := i + 1; j < nSampah; j++ {
-			if ascending {
-				if temp[j].Jenis.Nama < temp[idx].Jenis.Nama {
-					idx = j
-				}
-			} else {
-				if temp[j].Jenis.Nama > temp[idx].Jenis.Nama {
-					idx = j
-				}
-			}
-		}
-		if idx != i {
-			temp[i], temp[idx] = temp[idx], temp[i]
-		}
-	}
-	MenuTampilanDataSampahYangTerkumpul()
-	for i := 0; i < nSampah; i++ {
-		fmt.Printf("║ %-2d │ %-12s │ %-11.2f │ %-12s ║\n", i+1, temp[i].Jenis.Nama, temp[i].Jumlah, temp[i].Waktu)
-	}
-	fmt.Println("╚═════════════════════════════════════════════════╝")
-	tungguEnter("Tekan Enter untuk kembali...")
-}
-
-func InsertionSortJumlah(ascending bool) {
-	var temp [MAX_SAMPAH]DataTerkumpul
-	for i := 0; i < nSampah; i++ {
-		temp[i] = dataSampahTerkumpul[i]
-	}
-	for i := 1; i < nSampah; i++ {
-		key := temp[i]
-		j := i - 1
-		if ascending {
-			for j >= 0 && temp[j].Jumlah > key.Jumlah {
-				temp[j+1] = temp[j]
-				j--
-			}
-		} else {
-			for j >= 0 && temp[j].Jumlah < key.Jumlah {
-				temp[j+1] = temp[j]
-				j--
-			}
-		}
-		temp[j+1] = key
-	}
-	MenuTampilanDataSampahYangTerkumpul()
-	for i := 0; i < nSampah; i++ {
-		fmt.Printf("║ %-2d │ %-12s │ %-11.2f │ %-12s ║\n", i+1, temp[i].Jenis.Nama, temp[i].Jumlah, temp[i].Waktu)
-	}
-	fmt.Println("╚═════════════════════════════════════════════════╝")
-	tungguEnter("Tekan Enter untuk kembali...")
-}
-
+//Fungsi Tampilan Statistik ==============================================================
 func TampilanStatistik() {
-	var totalSampah, totalDaur float64
-	for i := 0; i < nSampah; i++ {
-		totalSampah += dataSampahTerkumpul[i].Jumlah
-	}
-	for i := 0; i < nDaur; i++ {
-		totalDaur += dataDaurUlang[i].Jumlah
-	}
-	fmt.Println("╔═════════════════════════════════════════════════╗")
-	fmt.Println("║               TAMPILAN STATISTIK                ║")
-	fmt.Println("╠═════════════════════════════════════════════════╣")
-	fmt.Println("║ Total Sampah Terkumpul: ", totalSampah, " kg")
-	fmt.Println("║ Total Sampah Didaur Ulang: ", totalDaur, " kg")
-	if totalSampah > 0 {
-		fmt.Println("║ Persentase Daur Ulang: ", (totalDaur/totalSampah)*100, "%")
-	} else {
-		fmt.Println("║ Persentase Daur Ulang: 0%")
-	}
-	fmt.Println("╚═════════════════════════════════════════════════╝")
-	tungguEnter("Tekan Enter untuk kembali...")
+	
 }
 
+//Fungsi Cari Data ===================================================================
 func CariDataSampah() {
-	MenuCariDataSampah()
-	var pilihan int
-	fmt.Scanln(&pilihan)
-	if pilihan == 1 {
-		var nama string
-		fmt.Print("Masukkan nama jenis sampah: ")
-		fmt.Scanln(&nama)
-		SequentialSearchJenis(nama)
-	} else if pilihan == 2 {
-		var jumlah float64
-		fmt.Print("Masukkan jumlah (kg): ")
-		fmt.Scanln(&jumlah)
-		BinarySearchJumlah(jumlah)
-	} else {
-		fmt.Println("Opsi tidak valid!")
-		tungguEnter("Tekan Enter untuk kembali...")
-	}
+	
 }
 
+//Fungsi Sortir Data =================================================================
 func UrutDataSampah() {
-	MenuUrutDataSampah()
-	var pilihan int
-	fmt.Scanln(&pilihan)
-	if pilihan == 1 || pilihan == 2 {
-		MenuMengurutkanDataBerdasarkan()
-		var urutan int
-		fmt.Scanln(&urutan)
-		ascending := urutan == 1
-		if pilihan == 1 {
-			SelectionSortJenis(ascending)
-		} else if pilihan == 2 {
-			InsertionSortJumlah(ascending)
-		}
-	} else {
-		fmt.Println("Opsi tidak valid!")
-		tungguEnter("Tekan Enter untuk kembali...")
-	}
+	
 }
 
+//Menu Utama ==========================================================================
 func main() {
-	initDummyData()
 	var menu, submenu int
 	for {
 		MenuUtama()
 		fmt.Scanln(&menu)
 		switch menu {
-		case 1:
-			MenuPerubahanData()
-			fmt.Scanln(&submenu)
-			switch submenu {
-			case 0:
 			case 1:
-				TampilanDataSampahYangTerkumpul()
+				MenuPerubahanData()
+				fmt.Scanln(&submenu)
+				switch submenu {
+					case 0:
+						MenuUtama()
+					case 1:
+						MenuTampilanDataSampahYangTerkumpul()
+					case 2:
+						MenuTambahDataSampahYangTerkumpul()
+					case 3:
+						MenuHapusDataSampahYangTerkumpul()
+					case 4:
+						MenuUbahDataSampahYangTerkumpul()
+					default:
+						fmt.Println("Opsi tidak tersedia, silakan pilih yang lain.")
+				}
 			case 2:
-				TambahDataSampahYangTerkumpul()
+				MenuPerubahanData()
+				fmt.Scanln(&submenu)
+				switch submenu {
+					case 0:
+						MenuUtama()
+					case 1:
+						MenuTampilanDataJenisSampah()
+					case 2:
+						MenuTambahDataJenisSampah()
+					case 3:
+						MenuHapusDataJenisSampah()
+					case 4:
+						MenuUbahDataJenisSampah()
+					default:
+						fmt.Println("Opsi tidak tersedia, silakan pilih yang lain.")
+				}
 			case 3:
-				HapusDataSampahYangTerkumpul()
+				MenuPerubahanData()
+				fmt.Scanln(&submenu)
+				switch submenu {
+					case 0:
+						MenuUtama()
+					case 1:
+						MenuTampilanDataDaurUlang()
+					case 2:
+						MenuTambahDataDaurUlang()
+					case 3:
+						MenuHapusDataDaurUlang()
+					case 4:
+						MenuUbahDataDaurUlang()
+					default:
+						fmt.Println("Opsi tidak tersedia, silakan pilih yang lain.")
+				}
 			case 4:
-				UbahDataSampahYangTerkumpul()
+				MenuCariDataSampah()
+			case 5:
+				MenuUrutDataSampah()
+			case 6:
+				MenuTampilanStatistik()
+			case 7:
+				os.Exit()
 			default:
 				fmt.Println("Opsi tidak tersedia, silakan pilih yang lain.")
-				tungguEnter("Tekan Enter untuk kembali...")
-			}
-		case 2:
-			MenuPerubahanData()
-			fmt.Scanln(&submenu)
-			switch submenu {
-			case 0:
-			case 1:
-				TampilanDataJenisSampah()
-			case 2:
-				TambahDataJenisSampah()
-			case 3:
-				HapusDataJenisSampah()
-			case 4:
-				UbahDataJenisSampah()
-			default:
-				fmt.Println("Opsi tidak tersedia, silakan pilih yang lain.")
-				tungguEnter("Tekan Enter untuk kembali...")
-			}
-		case 3:
-			MenuPerubahanData()
-			fmt.Scanln(&submenu)
-			switch submenu {
-			case 0:
-			case 1:
-				TampilanDataDaurUlang()
-			case 2:
-				TambahDataDaurUlang()
-			case 3:
-				HapusDataDaurUlang()
-			case 4:
-				UbahDataDaurUlang()
-			default:
-				fmt.Println("Opsi tidak tersedia, silakan pilih yang lain.")
-				tungguEnter("Tekan Enter untuk kembali...")
-			}
-		case 4:
-			CariDataSampah()
-		case 5:
-			UrutDataSampah()
-		case 6:
-			TampilanStatistik()
-		case 7:
-			os.Exit(0)
-		default:
-			fmt.Println("Opsi tidak tersedia, silakan pilih yang lain.")
-			tungguEnter("Tekan Enter untuk kembali...")
 		}
 	}
 }
-
 ```
